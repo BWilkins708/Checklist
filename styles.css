@@ -1,0 +1,352 @@
+/* ---------- Colors (light mode) ---------- */
+:root {
+  --bg-1: #eef2ff;
+  --bg-2: #fdf2f8;
+  --card: #ffffff;
+  --text: #1e1b2e;
+  --muted: #8a8799;
+  --border: #ebe9f3;
+  --row: #f8f7fc;
+  --row-hover: #f1effa;
+  --accent: #6d5dfc;
+  --accent-2: #a855f7;
+  --danger: #e5484d;
+  --shadow: 0 20px 50px -20px rgba(80, 60, 180, 0.25);
+}
+
+/* ---------- Colors (dark mode) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-1: #12111c;
+    --bg-2: #1b1426;
+    --card: #1f1d2b;
+    --text: #eceaf6;
+    --muted: #8f8ba6;
+    --border: #2d2a3d;
+    --row: #262435;
+    --row-hover: #2e2b40;
+    --accent: #8b7dff;
+    --accent-2: #c084fc;
+    --danger: #ff6b70;
+    --shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* ---------- Page ---------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 48px 16px;
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  background-attachment: fixed;
+  color: var(--text);
+  font: 16px/1.5 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.card {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 32px 28px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Header ---------- */
+.eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+h1 {
+  margin: 4px 0 16px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--row);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.count {
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ---------- Add form ---------- */
+.add-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  font: inherit;
+  color: var(--text);
+  background: var(--row);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.add-form input::placeholder { color: var(--muted); }
+
+.add-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--card);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.add {
+  width: 48px;
+  flex-shrink: 0;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-radius: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.add:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px -6px var(--accent);
+}
+
+.add:active { transform: translateY(0); }
+
+/* ---------- List items ---------- */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  background: var(--row);
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+li:hover { background: var(--row-hover); }
+
+/* ⠿ drag handle */
+.handle {
+  flex-shrink: 0;
+  margin: -4px -6px -4px -6px;
+  padding: 4px 4px;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--muted);
+  border-radius: 6px;
+  cursor: grab;
+  opacity: 0.4;
+  touch-action: none; /* stop the page scrolling while dragging on a phone */
+  transition: opacity 0.2s, color 0.2s, background 0.2s;
+}
+
+li:hover .handle,
+.handle:focus-visible { opacity: 1; }
+
+.handle:hover { color: var(--accent); }
+
+.handle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* The row being dragged lifts up */
+li.dragging {
+  position: relative;
+  z-index: 1;
+  background: var(--card);
+  box-shadow: 0 10px 28px -10px rgba(60, 40, 160, 0.45), 0 0 0 2px var(--accent);
+}
+
+body.is-dragging,
+body.is-dragging * {
+  cursor: grabbing !important;
+  user-select: none;
+}
+
+li.editing .handle { visibility: hidden; }
+
+/* Only the item you just added slides in */
+li.new { animation: pop-in 0.25s ease; }
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom round checkbox */
+li input[type="checkbox"] {
+  appearance: none;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 2px solid var(--muted);
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+li input[type="checkbox"]::after {
+  content: "✓";
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  transform: scale(0);
+  transition: transform 0.15s;
+}
+
+li input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+}
+
+li input[type="checkbox"]:checked::after { transform: scale(1); }
+
+li span {
+  flex: 1;
+  word-break: break-word;
+  transition: color 0.2s;
+}
+
+li.done span {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+/* ✎ and ✕ buttons only show when hovering a row */
+.icon-btn {
+  padding: 4px 8px;
+  font-size: 1rem;
+  color: var(--muted);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, background 0.2s;
+}
+
+li:hover .icon-btn,
+.icon-btn:focus { opacity: 1; }
+
+.edit:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.remove:hover {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+}
+
+/* On touch screens there's no hover, so always show the buttons */
+@media (hover: none) {
+  .icon-btn { opacity: 1; }
+}
+
+/* Text box shown while editing an item */
+.edit-input {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 8px;
+  margin: -4px 0;
+  font: inherit;
+  color: var(--text);
+  background: var(--card);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  outline: none;
+}
+
+/* Hide the ✎ / ✕ buttons while editing */
+li.editing .icon-btn { display: none; }
+
+/* ---------- Empty state ---------- */
+.empty {
+  padding: 28px 0 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-content: center;
+  font-size: 1.4rem;
+  color: var(--accent);
+  background: var(--row);
+  border-radius: 50%;
+}
+
+.empty p { margin: 0; }
+
+/* ---------- Footer ---------- */
+footer {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 32px;
+  margin-top: 8px;
+}
+
+.clear {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.clear:hover {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}

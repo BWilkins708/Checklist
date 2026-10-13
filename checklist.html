@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Checklist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="card">
+    <header>
+      <p class="eyebrow" id="today"></p>
+      <h1>My Checklist</h1>
+      <div class="progress">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <span class="count" id="count"></span>
+      </div>
+    </header>
+
+    <form id="addForm" class="add-form">
+      <input type="text" id="newItem" placeholder="What needs doing?" autocomplete="off" autofocus>
+      <button class="add" type="submit" aria-label="Add item">+</button>
+    </form>
+
+    <ul id="list"></ul>
+
+    <div class="empty" id="empty">
+      <div class="empty-icon">✓</div>
+      <p>Nothing here yet.<br>Add your first item above.</p>
+    </div>
+
+    <footer>
+      <button class="clear" id="clearDone" type="button">Clear checked items</button>
+    </footer>
+  </main>
+</body>
+</html>
