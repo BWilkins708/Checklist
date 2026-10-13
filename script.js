@@ -42,6 +42,10 @@ function render() {
       if (e.key === "ArrowDown") { e.preventDefault(); moveItem(i, i + 1); }
     };
 
+    const num = document.createElement("span");
+    num.className = "num";
+    num.textContent = i + 1;
+
     const box = document.createElement("input");
     box.type = "checkbox";
     box.checked = item.done;
@@ -65,7 +69,7 @@ function render() {
     del.textContent = "✕";
     del.onclick = () => { items.splice(i, 1); save(); render(); };
 
-    li.append(handle, box, text, edit, del);
+    li.append(handle, num, box, text, edit, del);
     list.append(li);
     if (i === focusHandle) handle.focus();
   });
@@ -146,6 +150,8 @@ function startDrag(e, li, handle) {
       li.after(prev);
       prev = li.previousElementSibling;
     }
+    // Renumber the rows so the numbers follow the drag
+    [...list.children].forEach((row, n) => row.querySelector(".num").textContent = n + 1);
   };
 
   handle.onpointerup = handle.onpointercancel = () => {
@@ -156,6 +162,46 @@ function startDrag(e, li, handle) {
     save(); render();
   };
 }
+
+// ---------- Checklist name ----------
+// Click the title to rename it. Enter or clicking away saves, Escape cancels.
+const TITLE_KEY = "my-checklist-title";
+const titleEl = document.getElementById("title");
+
+function showTitle(name) {
+  titleEl.textContent = name;
+  document.title = name; // the browser tab shows it too
+}
+
+try { showTitle(localStorage.getItem(TITLE_KEY) || "My Checklist"); } catch (e) {}
+
+titleEl.onclick = () => {
+  const box = document.createElement("input");
+  box.type = "text";
+  box.className = "title-input";
+  box.value = titleEl.textContent;
+  titleEl.replaceWith(box);
+  box.focus();
+  box.select();
+
+  let finished = false; // stops it saving twice (Enter, then the box losing focus)
+  function finish(keep) {
+    if (finished) return;
+    finished = true;
+    const name = box.value.trim();
+    if (keep && name) {
+      showTitle(name);
+      try { localStorage.setItem(TITLE_KEY, name); } catch (e) {}
+    }
+    box.replaceWith(titleEl);
+  }
+
+  box.onkeydown = (e) => {
+    if (e.key === "Enter") finish(true);
+    if (e.key === "Escape") finish(false);
+  };
+  box.onblur = () => finish(true);
+};
 
 // ---------- Add an item ----------
 document.getElementById("addForm").onsubmit = (e) => {

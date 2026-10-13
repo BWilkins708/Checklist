@@ -72,6 +72,32 @@ h1 {
   letter-spacing: -0.02em;
 }
 
+h1 {
+  cursor: text;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+h1:hover { background: var(--row); }
+
+/* Text box shown while renaming the checklist */
+.title-input {
+  display: block;
+  width: 100%;
+  margin: 4px 0 16px;
+  padding: 0 6px;
+  font: inherit;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text);
+  background: var(--card);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  outline: none;
+}
+
 .progress {
   display: flex;
   align-items: center;
@@ -262,6 +288,18 @@ li span {
 li.done span {
   color: var(--muted);
   text-decoration: line-through;
+}
+
+/* Item number */
+li span.num {
+  flex: 0 0 auto;
+  min-width: 1.5em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  text-decoration: none;
 }
 
 /* ✎ and ✕ buttons only show when hovering a row */
