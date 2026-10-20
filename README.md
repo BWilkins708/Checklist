@@ -1,4 +1,4 @@
-# My Checklist
+# Checklist
 
 A simple, single-page checklist app. No install or build step: it's plain HTML, CSS and JavaScript.
 
