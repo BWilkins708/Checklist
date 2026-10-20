@@ -173,7 +173,7 @@ function showTitle(name) {
   document.title = name; // the browser tab shows it too
 }
 
-try { showTitle(localStorage.getItem(TITLE_KEY) || "My Checklist"); } catch (e) {}
+try { showTitle(localStorage.getItem(TITLE_KEY) || "Checklist"); } catch (e) {}
 
 titleEl.onclick = () => {
   const box = document.createElement("input");
