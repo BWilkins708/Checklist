@@ -80,7 +80,10 @@ body {
 
 .tab {
   flex: none;
-  max-width: 160px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 180px;
   padding: 6px 12px;
   font-size: 0.85rem;
   font-weight: 600;
@@ -88,9 +91,24 @@ body {
   background: var(--row);
   border-radius: 999px;
   white-space: nowrap;
+  transition: color 0.2s, background 0.2s, transform 0.15s;
+  -webkit-touch-callout: none; /* no iPhone pop-up when you press and hold to drag */
+  user-select: none;
+}
+.tab-name {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis; /* long names end in "…" */
-  transition: color 0.2s, background 0.2s;
+}
+.tab-count {
+  flex: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+.tab.dragging {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px -6px var(--accent);
 }
 .tab:hover { color: var(--text); background: var(--row-hover); }
 .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -114,23 +132,48 @@ body {
   gap: 12px;
 }
 
-/* The little "i" button that opens the help */
-.help-btn {
+.header-actions {
+  position: relative; /* the ⋯ menu opens just below these buttons */
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* The round Share, ⋯ and "i" buttons */
+.round-btn {
   flex: none;
-  width: 26px;
-  height: 26px;
-  font-family: Georgia, serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  font-style: italic;
-  line-height: 1;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
   color: var(--accent);
   border-radius: 50%;
   box-shadow: inset 0 0 0 1.5px currentColor;
   transition: color 0.2s, background 0.2s;
 }
-.help-btn:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
-.help-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.round-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#menuBtn svg { fill: currentColor; stroke: none; }
+
+.help-btn {
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+}
+
+.round-btn:hover,
+.round-btn[aria-expanded="true"] { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.round-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .eyebrow {
   margin: 0;
@@ -522,3 +565,84 @@ footer {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   border-radius: 12px;
 }
+
+/* ---------- ⋯ menu ---------- */
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10;
+  min-width: 220px;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.menu[hidden] { display: none; }
+.menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.92rem;
+  text-align: left;
+  color: var(--text);
+  border-radius: 8px;
+}
+.menu button:hover,
+.menu button:focus-visible {
+  background: var(--row-hover);
+  outline: none;
+}
+.menu hr {
+  margin: 6px 4px;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Swipe left to remove ---------- */
+#list li {
+  touch-action: pan-y; /* sideways finger moves are swipes, up/down still scrolls */
+  transition: background 0.2s, transform 0.2s, opacity 0.2s; /* slides back smoothly */
+}
+#list li.swiping { transition: none; }
+
+/* ---------- Message at the bottom (with Undo) ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: calc(100% - 32px);
+  padding: 10px 10px 10px 16px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: #2a2540;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 16px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.toast span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.toast button {
+  flex: none;
+  padding: 6px 12px;
+  font-weight: 600;
+  color: #c4b5fd;
+  border-radius: 8px;
+}
+.toast button:hover { background: rgba(255, 255, 255, 0.1); }

@@ -24,8 +24,23 @@
 
     <header>
       <div class="header-top">
-        <p class="eyebrow" id="today"></p>
-        <button class="help-btn" id="helpBtn" type="button" aria-label="How to use" title="How to use">i</button>
+        <p class="eyebrow" id="updated"></p>
+        <div class="header-actions">
+          <button class="round-btn" id="shareBtn" type="button" aria-label="Share this list" title="Share this list">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M7 11H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1"/></svg>
+          </button>
+          <button class="round-btn" id="menuBtn" type="button" aria-label="More options" title="More options" aria-haspopup="true" aria-expanded="false" aria-controls="menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+          </button>
+          <button class="round-btn help-btn" id="helpBtn" type="button" aria-label="How to use" title="How to use">i</button>
+          <div class="menu" id="menu" hidden>
+            <button type="button" data-action="untick">Untick everything</button>
+            <button type="button" data-action="duplicate">Duplicate this list</button>
+            <hr>
+            <button type="button" data-action="backup">Back up all lists</button>
+            <button type="button" data-action="restore">Restore from a backup…</button>
+          </div>
+        </div>
       </div>
       <h1 id="title" title="Click to rename">Checklist</h1>
       <div class="progress">
@@ -52,6 +67,9 @@
     </footer>
   </main>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+
   <dialog class="help" id="help" aria-labelledby="helpTitle">
     <h2 id="helpTitle">How to use Checklist</h2>
 
@@ -60,22 +78,31 @@
       <li><b>Add</b> – type in the box and press Enter or <b>+</b>.</li>
       <li><b>Tick off</b> – tap the circle. The bar at the top shows how much is done.</li>
       <li><b>Edit</b> – double-tap the text or tap <b>✎</b>. Enter saves, Escape cancels.</li>
-      <li><b>Remove</b> – tap <b>✕</b>, or <b>Clear checked items</b> to remove every ticked one.</li>
+      <li><b>Remove</b> – swipe the item left, or tap <b>✕</b>. <b>Clear checked items</b> removes every ticked one.</li>
       <li><b>Reorder</b> – drag the <b>⠿</b> handle up or down.</li>
+      <li><b>Oops?</b> – after removing anything, tap <b>Undo</b> in the message at the bottom.</li>
     </ul>
 
     <h3>Lists</h3>
     <ul>
-      <li><b>Switch</b> – tap a tab at the top. Swipe the tabs sideways if there are lots.</li>
+      <li><b>Switch</b> – tap a tab at the top. Each tab shows how many are done, like 2/5. Swipe the tabs sideways if there are lots.</li>
       <li><b>New list</b> – tap <b>+ New list</b>, then type its name.</li>
       <li><b>Rename</b> – tap the list's title.</li>
-      <li><b>Delete</b> – tap <b>Delete list</b> at the bottom. It asks first.</li>
+      <li><b>Reorder lists</b> – press and hold a tab, then drag it.</li>
+      <li><b>Delete</b> – tap <b>Delete list</b> at the bottom.</li>
+    </ul>
+
+    <h3>Buttons at the top</h3>
+    <ul>
+      <li><b>Share</b> (the box with an arrow) – send the list by text, email and more.</li>
+      <li><b>⋯</b> – untick everything to reuse a list, duplicate a list, or back up and restore all your lists.</li>
     </ul>
 
     <h3>Good to know</h3>
     <ul>
-      <li>Everything saves by itself on this device, and works without internet.</li>
-      <li>Lists aren't shared between devices or browsers.</li>
+      <li>Everything saves by itself on this device, and works without internet. The top of each list shows when it was last changed.</li>
+      <li>Lists aren't shared between devices or browsers. Use <b>⋯ → Back up all lists</b> to keep a copy or move them to another device.</li>
+      <li>On iPhone, deleting the app from the home screen deletes its lists, so back up first.</li>
       <li>Add it to your home screen to use it like an app: in Safari tap Share → <b>Add to Home Screen</b>.</li>
     </ul>
 

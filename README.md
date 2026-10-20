@@ -9,17 +9,25 @@ Open `checklist.html` in any web browser.
 - **Add** an item by typing in the box and pressing Enter (or clicking **+**).
 - **Check off** an item with its checkbox. The progress bar shows how much is done.
 - **Edit** an item by double-clicking its text or clicking ✎. Enter or clicking away saves; Escape cancels.
-- **Remove** an item with ✕, or remove every checked item at once with **Clear checked items**.
+- **Remove** an item by swiping it left (on a touch screen) or with ✕, or remove every checked item at once with **Clear checked items**.
 - **Reorder** items by dragging the ⠿ handle, or by selecting the handle and pressing ↑ / ↓.
+- **Undo** anything you removed with the **Undo** button in the message that pops up at the bottom.
 
 You can keep several lists:
 
-- **Switch** lists with the tabs at the top (swipe them sideways if there are lots).
+- **Switch** lists with the tabs at the top (swipe them sideways if there are lots). Each tab shows how many items are done, like 2/5.
 - **Make** a new list with **+ New list**, then type its name.
 - **Rename** the open list by clicking its title.
-- **Delete** the open list with **Delete list** (it asks first).
+- **Reorder** lists by dragging their tabs (on a touch screen, press and hold first).
+- **Delete** the open list with **Delete list**.
 
-Your lists are saved in your browser (using `localStorage`), so it's still there when you come back. It isn't synced to other browsers or devices.
+The buttons next to "Updated …" at the top:
+
+- **Share** sends the open list as text, e.g. by Messages or email. On computers without sharing, it copies the list instead.
+- **⋯** has **Untick everything** (to reuse a list), **Duplicate this list**, **Back up all lists** and **Restore from a backup**.
+- **i** shows how to use the app.
+
+Your lists are saved in your browser (using `localStorage`), so they're still there when you come back. They aren't synced to other browsers or devices; use **⋯ → Back up all lists** to keep a copy or move them.
 
 ## Install it as an app
 
