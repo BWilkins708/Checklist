@@ -23,7 +23,10 @@
     <nav class="tabs" id="tabs" aria-label="Your lists"></nav>
 
     <header>
-      <p class="eyebrow" id="today"></p>
+      <div class="header-top">
+        <p class="eyebrow" id="today"></p>
+        <button class="help-btn" id="helpBtn" type="button" aria-label="How to use" title="How to use">i</button>
+      </div>
       <h1 id="title" title="Click to rename">Checklist</h1>
       <div class="progress">
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -48,5 +51,37 @@
       <button class="clear" id="clearDone" type="button">Clear checked items</button>
     </footer>
   </main>
+
+  <dialog class="help" id="help" aria-labelledby="helpTitle">
+    <h2 id="helpTitle">How to use Checklist</h2>
+
+    <h3>Items</h3>
+    <ul>
+      <li><b>Add</b> – type in the box and press Enter or <b>+</b>.</li>
+      <li><b>Tick off</b> – tap the circle. The bar at the top shows how much is done.</li>
+      <li><b>Edit</b> – double-tap the text or tap <b>✎</b>. Enter saves, Escape cancels.</li>
+      <li><b>Remove</b> – tap <b>✕</b>, or <b>Clear checked items</b> to remove every ticked one.</li>
+      <li><b>Reorder</b> – drag the <b>⠿</b> handle up or down.</li>
+    </ul>
+
+    <h3>Lists</h3>
+    <ul>
+      <li><b>Switch</b> – tap a tab at the top. Swipe the tabs sideways if there are lots.</li>
+      <li><b>New list</b> – tap <b>+ New list</b>, then type its name.</li>
+      <li><b>Rename</b> – tap the list's title.</li>
+      <li><b>Delete</b> – tap <b>Delete list</b> at the bottom. It asks first.</li>
+    </ul>
+
+    <h3>Good to know</h3>
+    <ul>
+      <li>Everything saves by itself on this device, and works without internet.</li>
+      <li>Lists aren't shared between devices or browsers.</li>
+      <li>Add it to your home screen to use it like an app: in Safari tap Share → <b>Add to Home Screen</b>.</li>
+    </ul>
+
+    <form method="dialog">
+      <button class="help-close" type="submit">Got it</button>
+    </form>
+  </dialog>
 </body>
 </html>

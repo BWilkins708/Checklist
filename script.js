@@ -300,6 +300,20 @@ document.getElementById("clearDone").onclick = () => {
   save(); render();
 };
 
+// ---------- Help ----------
+// The "i" button opens the how-to box. "Got it", Escape, or tapping outside closes it.
+const help = document.getElementById("help");
+document.getElementById("helpBtn").onclick = () => {
+  help.showModal();
+  help.scrollTop = 0; // start at the top, not scrolled down to the "Got it" button
+};
+help.onclick = (e) => {
+  // Close if the tap landed on the dimmed area outside the box
+  const r = help.getBoundingClientRect();
+  const outside = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+  if (e.target === help && outside) help.close();
+};
+
 // ---------- Draw once on page load ----------
 render();
 

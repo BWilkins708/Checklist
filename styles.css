@@ -107,6 +107,31 @@ body {
 }
 
 /* ---------- Header ---------- */
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* The little "i" button that opens the help */
+.help-btn {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  font-family: Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  color: var(--accent);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+  transition: color 0.2s, background 0.2s;
+}
+.help-btn:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.help-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 .eyebrow {
   margin: 0;
   font-size: 0.8rem;
@@ -438,4 +463,62 @@ footer {
 .clear:hover {
   color: var(--danger);
   background: color-mix(in srgb, var(--danger) 10%, transparent);
+}
+
+/* ---------- Help ---------- */
+.help {
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100% - 48px);
+  padding: 24px 24px 20px;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  overflow-y: auto;
+}
+.help::backdrop {
+  background: rgba(20, 16, 40, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.help h2 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+  letter-spacing: -0.01em;
+}
+.help h3 {
+  margin: 18px 0 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.help ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.92rem;
+  list-style: disc;
+}
+/* Plain bullet points, not the checklist's item rows */
+.help li,
+.help li:hover {
+  display: list-item;
+  margin: 4px 0;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
+.help li::marker { color: var(--muted); }
+
+.help-close {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-radius: 12px;
 }
