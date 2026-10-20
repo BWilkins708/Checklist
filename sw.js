@@ -1,6 +1,6 @@
 // Service worker: keeps a copy of the app so it opens and works offline.
 // Bump VERSION when you want installed copies to drop their old cache.
-const VERSION = "v4";
+const VERSION = "v5";
 const CACHE = "checklist-" + VERSION;
 
 const APP_FILES = [

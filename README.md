@@ -12,7 +12,14 @@ Open `checklist.html` in any web browser.
 - **Remove** an item with ✕, or remove every checked item at once with **Clear checked items**.
 - **Reorder** items by dragging the ⠿ handle, or by selecting the handle and pressing ↑ / ↓.
 
-Your list is saved in your browser (using `localStorage`), so it's still there when you come back. It isn't synced to other browsers or devices.
+You can keep several lists:
+
+- **Switch** lists with the tabs at the top (swipe them sideways if there are lots).
+- **Make** a new list with **+ New list**, then type its name.
+- **Rename** the open list by clicking its title.
+- **Delete** the open list with **Delete list** (it asks first).
+
+Your lists are saved in your browser (using `localStorage`), so it's still there when you come back. It isn't synced to other browsers or devices.
 
 ## Install it as an app
 
