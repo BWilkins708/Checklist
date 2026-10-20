@@ -222,3 +222,12 @@ document.getElementById("clearDone").onclick = () => {
 
 // ---------- Draw once on page load ----------
 render();
+
+// ---------- Installable app ----------
+// Registers the service worker so the checklist can be installed and used offline.
+// (It only runs when the page is served over http(s), e.g. on GitHub Pages, not when opened as a file.)
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
