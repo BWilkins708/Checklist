@@ -1,5 +1,5 @@
 {
-  "name": "My Checklist",
+  "name": "Checklist",
   "short_name": "Checklist",
   "description": "A simple checklist that saves as you go and works offline.",
   "start_url": "./checklist.html",
