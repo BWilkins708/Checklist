@@ -1,7 +1,28 @@
 // ---------- Data ----------
-const KEY = "my-checklist-items";
-let items = [];
-try { items = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { items = []; }
+// All lists are saved together as { lists: [{ id, name, items }], current: id-of-open-list }
+const KEY = "checklist-lists";
+let saved = null;
+try { saved = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+
+let lists = saved && saved.lists && saved.lists.length ? saved.lists : null;
+if (!lists) {
+  // First time with multiple lists: bring over the single list saved by the older version
+  let oldItems = [], oldName = null;
+  try {
+    oldItems = JSON.parse(localStorage.getItem("my-checklist-items")) || [];
+    oldName = localStorage.getItem("my-checklist-title");
+  } catch (e) {}
+  lists = [{ id: newId(), name: oldName || "Checklist", items: oldItems }];
+}
+
+let currentId = saved && lists.some(l => l.id === saved.current) ? saved.current : lists[0].id;
+const currentList = () => lists.find(l => l.id === currentId);
+let items = currentList().items; // the items of the list that's open
+
+// A unique id for a new list, e.g. "lq3x9k2f7a"
+function newId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
 
 // ---------- Page elements ----------
 const list = document.getElementById("list");
@@ -20,7 +41,8 @@ setInterval(showDate, 60000);  // and re-check every minute (60,000 ms), so it c
 
 // ---------- Save to the browser ----------
 function save() {
-  try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (e) {}
+  currentList().items = items;
+  try { localStorage.setItem(KEY, JSON.stringify({ lists, current: currentId })); } catch (e) {}
 }
 
 // ---------- Redraw the list from `items` ----------
@@ -163,17 +185,74 @@ function startDrag(e, li, handle) {
   };
 }
 
-// ---------- Checklist name ----------
-// Click the title to rename it. Enter or clicking away saves, Escape cancels.
-const TITLE_KEY = "my-checklist-title";
+// ---------- Switching between lists ----------
+// A row of tabs, one per list, plus "+ New list" at the end.
+const tabs = document.getElementById("tabs");
+
+function renderTabs() {
+  tabs.innerHTML = "";
+  lists.forEach(l => {
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = "tab";
+    tab.textContent = l.name;
+    tab.title = l.name;
+    if (l.id === currentId) {
+      tab.classList.add("active");
+      tab.setAttribute("aria-current", "true");
+    }
+    tab.onclick = () => switchTo(l.id);
+    tabs.append(tab);
+  });
+
+  const add = document.createElement("button");
+  add.type = "button";
+  add.className = "tab new-tab";
+  add.textContent = "+ New list";
+  add.onclick = newList;
+  tabs.append(add);
+
+  // Scroll the open list's tab into view if there are too many to fit
+  const active = tabs.querySelector(".active");
+  tabs.scrollLeft = Math.max(0, active.offsetLeft - tabs.offsetLeft - 40);
+}
+
+function switchTo(id) {
+  currentId = id;
+  items = currentList().items;
+  showTitle(currentList().name);
+  save(); render();
+}
+
+// Makes an empty list, opens it, and lets you type its name straight away
+function newList() {
+  const l = { id: newId(), name: "New list", items: [] };
+  lists.push(l);
+  switchTo(l.id);
+  titleEl.onclick();
+}
+
+// Delete the open list (after asking). There's always at least one list.
+document.getElementById("deleteList").onclick = () => {
+  const l = currentList();
+  if (!confirm(`Delete "${l.name}" and everything on it?`)) return;
+  const i = lists.indexOf(l);
+  lists.splice(i, 1);
+  if (!lists.length) lists.push({ id: newId(), name: "Checklist", items: [] });
+  switchTo(lists[Math.max(0, i - 1)].id);
+};
+
+// ---------- List name ----------
+// Click the title to rename the open list. Enter or clicking away saves, Escape cancels.
 const titleEl = document.getElementById("title");
 
 function showTitle(name) {
   titleEl.textContent = name;
   document.title = name; // the browser tab shows it too
+  renderTabs();
 }
 
-try { showTitle(localStorage.getItem(TITLE_KEY) || "Checklist"); } catch (e) {}
+showTitle(currentList().name);
 
 titleEl.onclick = () => {
   const box = document.createElement("input");
@@ -190,8 +269,9 @@ titleEl.onclick = () => {
     finished = true;
     const name = box.value.trim();
     if (keep && name) {
+      currentList().name = name;
       showTitle(name);
-      try { localStorage.setItem(TITLE_KEY, name); } catch (e) {}
+      save();
     }
     box.replaceWith(titleEl);
   }
