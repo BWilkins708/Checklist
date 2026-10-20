@@ -35,10 +35,22 @@
 /* ---------- Page ---------- */
 * { box-sizing: border-box; }
 
+/* Fill behind the iPhone status bar and home bar with the page color, not white */
+html {
+  min-height: 100%;
+  background: var(--bg-2);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  padding: 48px 16px;
+  /* env(safe-area-inset-…) is the space taken by the iPhone notch and home bar,
+     so the card never sits underneath them */
+  padding:
+    max(48px, calc(env(safe-area-inset-top) + 24px))
+    calc(16px + env(safe-area-inset-right))
+    max(48px, calc(env(safe-area-inset-bottom) + 24px))
+    calc(16px + env(safe-area-inset-left));
   background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
   background-attachment: fixed;
   color: var(--text);
